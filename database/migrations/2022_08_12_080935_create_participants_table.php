@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('participants', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('role');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->integer('ELO');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Tournament::class)->constrained()->onDelete('cascade');
+            $table->integer('points');
+            $table->integer('lucky_number');
+
         });
     }
 
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('participants');
     }
 };
